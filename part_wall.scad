@@ -23,6 +23,7 @@ _pwb_h_gap      = 0.0;
 _pwb_h_off      = 0.0;
 _pwb_off_n      = 2;
 _pwb_int_block  = true;
+_pwb_exp_factor = 0.01;
 _pwb_seed       = 53;    
 
 // Builds a 1 brick thick wall
@@ -49,6 +50,8 @@ module build_wall(
                                             //  : integer [1, 2]
         int_block   = _pwb_int_block,       // Interior block trigger, if false, no interior block is generated and b_sides is ignored
                                             //  : boolean [true = on, false = off]    
+        exp_factor  = _pwb_exp_factor,      // Expansion factor of b_sides (as percen tage of brick size in that direction)
+                                            //  : double [0, 1]
         seed        = _pwb_seed             // Random seed
                                             //  : double (-inf, inf)
     ){
@@ -125,16 +128,16 @@ module build_wall(
             
         // generate flats and interior
         if(int_block){
-            x_off_p     = b_sides[0] * depth * b_size[0];
-            x_off_n     = b_sides[1] * depth * b_size[0];
+            x_off_p     = b_sides[0] * depth * b_size[0] - ((b_sides[0] + 1) % 2) * exp_factor * b_size[0];
+            x_off_n     = b_sides[1] * depth * b_size[0] - ((b_sides[1] + 1) % 2) * exp_factor * b_size[0];
             x_off       = x_off_p + x_off_n;
-        
-            y_off_p     = b_sides[2] * depth * b_size[1];
-            y_off_n     = b_sides[3] * depth * b_size[1];
+            
+            y_off_p     = b_sides[2] * depth * b_size[1] - ((b_sides[2] + 1) % 2) * exp_factor * b_size[1];
+            y_off_n     = b_sides[3] * depth * b_size[1] - ((b_sides[3] + 1) % 2) * exp_factor * b_size[1];
             y_off       = y_off_p + y_off_n;
-        
-            z_off_p     = b_sides[4] * depth * b_size[2];
-            z_off_n     = b_sides[5] * depth * b_size[2];
+            
+            z_off_p     = b_sides[4] * depth * b_size[2] - ((b_sides[4] + 1) % 2) * exp_factor * b_size[2];
+            z_off_n     = b_sides[5] * depth * b_size[2] - ((b_sides[5] + 1) % 2) * exp_factor * b_size[2];
             z_off       = z_off_p + z_off_n;
        
             dims_x      = b_size[0] - x_off;

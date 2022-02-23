@@ -16,6 +16,7 @@ _ppb_depth      = 0.15;
 _ppb_v_gap      = 0;           
 _ppb_v_off      = 0;
 _ppb_int_block  = true;
+_ppb_exp_factor = 0.01;
 _ppb_seed       = 1234567890;
 
 module build_pillar(
@@ -33,6 +34,8 @@ module build_pillar(
                                         //  : double [0, height / b_size[2]]
     int_block   = _ppb_int_block,       // Interior block trigger, if false, no interior block is generated and b_sides is ignored
                                         //  : boolean [true = on, false = off]    
+    exp_factor  = _ppb_exp_factor,      // Expansion factor of b_sides (as percen tage of brick size in that direction)
+                                        //  : double [0, 1]
     seed        = _ppb_seed             // Seed used for random generation. Save see to get the same bricks
                                         //  : double [-inf, inf]
     ){
@@ -40,8 +43,9 @@ module build_pillar(
     // Variable checks
     assert(height > 0, "height must be greater than 0");
     assert(b_size[0] > 0 && b_size[1] > 0 && b_size[2] > 0, "Brick size must be greater than 0 on all dimensions");
-    assert(depth > 0 && depth <= 0.5, "depth must be greater than 0 or less than or equal to 1.0");    
+    assert(depth > 0 && depth <= 0.5, "depth must be [0 - 1]");    
     assert(v_gap >= 0, "v_gap must be greater than or equal to 0");    
+    assert(exp_factor >= 0 && exp_factor <= 1, "exp_factor must be [0 - 1]");
 
     b_slots = height / b_size[2];
     assert(v_off >= 0 && v_off <= b_slots, "v_off must be between 0 and height / b_size[2]");
@@ -112,16 +116,16 @@ module build_pillar(
 
             // Generate flats and interior
             if(int_block){
-                x_off_p     = b_sides[0] * depth * b_size[0];
-                x_off_n     = b_sides[1] * depth * b_size[0];
+                x_off_p     = b_sides[0] * depth * b_size[0] - ((b_sides[0] + 1) % 2) * exp_factor * b_size[0];
+                x_off_n     = b_sides[1] * depth * b_size[0] - ((b_sides[1] + 1) % 2) * exp_factor * b_size[0];
                 x_off       = x_off_p + x_off_n;
             
-                y_off_p     = b_sides[2] * depth * b_size[1];
-                y_off_n     = b_sides[3] * depth * b_size[1];
+                y_off_p     = b_sides[2] * depth * b_size[1] - ((b_sides[2] + 1) % 2) * exp_factor * b_size[1];
+                y_off_n     = b_sides[3] * depth * b_size[1] - ((b_sides[3] + 1) % 2) * exp_factor * b_size[1];
                 y_off       = y_off_p + y_off_n;
             
-                z_off_p     = b_sides[4] * depth * b_size[2];
-                z_off_n     = b_sides[5] * depth * b_size[2];
+                z_off_p     = b_sides[4] * depth * b_size[2] - ((b_sides[4] + 1) % 2) * exp_factor * b_size[2];
+                z_off_n     = b_sides[5] * depth * b_size[2] - ((b_sides[5] + 1) % 2) * exp_factor * b_size[2];
                 z_off       = z_off_p + z_off_n;
            
                 dims_z      = height - z_off;
