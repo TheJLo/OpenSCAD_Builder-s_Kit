@@ -12,17 +12,18 @@ use <bricks/OSBK_bricks.scad>
 use <part_pillar.scad>
 
 // Default Settings
-_pwb_length  = 10;
-_pwb_height  = 10;
-_pwb_b_size  = [1, 2, 1];           
-_pwb_sides   = [1, 0, 1, 1, 1, 0];  
-_pwb_depth   = 0.15;  
-_pwb_v_gap   = 0.0;
-_pwb_v_off   = 0.0;
-_pwb_h_gap   = 0.0;
-_pwb_h_off   = 0.0;
-_pwb_off_n   = 2;
-_pwb_seed    = 53;    
+_pwb_length     = 10;
+_pwb_height     = 10;
+_pwb_b_size     = [1, 2, 1];           
+_pwb_sides      = [1, 0, 1, 1, 1, 0];  
+_pwb_depth      = 0.15;  
+_pwb_v_gap      = 0.0;
+_pwb_v_off      = 0.0;
+_pwb_h_gap      = 0.0;
+_pwb_h_off      = 0.0;
+_pwb_off_n      = 2;
+_pwb_int_block  = true;
+_pwb_seed       = 53;    
 
 // Builds a 1 brick thick wall
 module build_wall(
@@ -46,6 +47,8 @@ module build_wall(
                                             //  : double [0, h_gap]
         off_n       = _pwb_off_n,           // Offset layer count (ONLY 1 OR 2)
                                             //  : integer [1, 2]
+        int_block   = _pwb_int_block,       // Interior block trigger, if false, no interior block is generated and b_sides is ignored
+                                            //  : boolean [true = on, false = off]    
         seed        = _pwb_seed             // Random seed
                                             //  : double (-inf, inf)
     ){
@@ -107,39 +110,42 @@ module build_wall(
 
                 translate([0, y_tran, 0])
                 build_pillar(
-                    height  = height,
-                    b_size  = b_size_n,
-                    b_sides = b_sides,
-                    depth   = depth,
-                    v_gap   = p_v_gap,
-                    v_off   = p_v_off,
-                    seed    = r_val[i + off_n]
+                    height      = height,
+                    b_size      = b_size_n,
+                    b_sides     = b_sides,
+                    depth       = depth,
+                    v_gap       = p_v_gap,
+                    v_off       = p_v_off,
+                    int_block   = false,
+                    seed        = r_val[i + off_n]
                 )
                 children(0);
             }
         }
             
         // generate flats and interior
-        x_off_p     = b_sides[0] * depth * b_size[0];
-        x_off_n     = b_sides[1] * depth * b_size[0];
-        x_off       = x_off_p + x_off_n;
-    
-        y_off_p     = b_sides[2] * depth * b_size[1];
-        y_off_n     = b_sides[3] * depth * b_size[1];
-        y_off       = y_off_p + y_off_n;
-    
-        z_off_p     = b_sides[4] * depth * b_size[2];
-        z_off_n     = b_sides[5] * depth * b_size[2];
-        z_off       = z_off_p + z_off_n;
-   
-        dims_x      = b_size[0] - x_off;
-        dims_y      = length    - y_off;
-        dims_z      = height    - z_off;
-        dims        = [dims_x, dims_y, dims_z];
-        mv          = [x_off_n, y_off_n, z_off_n];
-    
-        translate(mv)
-        cube(dims);
+        if(int_block){
+            x_off_p     = b_sides[0] * depth * b_size[0];
+            x_off_n     = b_sides[1] * depth * b_size[0];
+            x_off       = x_off_p + x_off_n;
+        
+            y_off_p     = b_sides[2] * depth * b_size[1];
+            y_off_n     = b_sides[3] * depth * b_size[1];
+            y_off       = y_off_p + y_off_n;
+        
+            z_off_p     = b_sides[4] * depth * b_size[2];
+            z_off_n     = b_sides[5] * depth * b_size[2];
+            z_off       = z_off_p + z_off_n;
+       
+            dims_x      = b_size[0] - x_off;
+            dims_y      = length    - y_off;
+            dims_z      = height    - z_off;
+            dims        = [dims_x, dims_y, dims_z];
+            mv          = [x_off_n, y_off_n, z_off_n];
+        
+            translate(mv)
+            cube(dims);
+        }
     }
 }
 
@@ -191,6 +197,7 @@ module _pwb_test_build_wall(){
         v_off       = 0.75,           
         h_gap       = 0.05,           
         h_off       = 0.5,
+        int_block   = false,
         seed        = 125468
     )
     brick_inter(max_a = 2, n = 6);

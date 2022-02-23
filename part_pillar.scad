@@ -8,13 +8,14 @@
 // Imports/Use
 use <bricks/OSBK_bricks.scad>
 
-// Defualt Values
+// Default Values
 _ppb_height     = 10;
 _ppb_b_size     = [1, 2, 1];
 _ppb_sides      = [1, 1, 1, 1, 1, 0];
 _ppb_depth      = 0.15;
 _ppb_v_gap      = 0;           
 _ppb_v_off      = 0;
+_ppb_int_block  = true;
 _ppb_seed       = 1234567890;
 
 module build_pillar(
@@ -30,6 +31,8 @@ module build_pillar(
                                         //  : double [0, inf]
     v_off       = _ppb_v_off,           // Vertical offset factor, changes the vertical offset of the bricks such that they are vertical displaced
                                         //  : double [0, height / b_size[2]]
+    int_block   = _ppb_int_block,       // Interior block trigger, if false, no interior block is generated and b_sides is ignored
+                                        //  : boolean [true = on, false = off]    
     seed        = _ppb_seed             // Seed used for random generation. Save see to get the same bricks
                                         //  : double [-inf, inf]
     ){
@@ -108,24 +111,26 @@ module build_pillar(
             }
 
             // Generate flats and interior
-            x_off_p     = b_sides[0] * depth * b_size[0];
-            x_off_n     = b_sides[1] * depth * b_size[0];
-            x_off       = x_off_p + x_off_n;
-        
-            y_off_p     = b_sides[2] * depth * b_size[1];
-            y_off_n     = b_sides[3] * depth * b_size[1];
-            y_off       = y_off_p + y_off_n;
-        
-            z_off_p     = b_sides[4] * depth * b_size[2];
-            z_off_n     = b_sides[5] * depth * b_size[2];
-            z_off       = z_off_p + z_off_n;
-       
-            dims_z      = height - z_off;
-            dims        = [b_size[0] - x_off, b_size[1] - y_off, dims_z];
-            mv          = [x_off_n, y_off_n, z_off_n];
-        
-            translate(mv)
-            cube(dims);
+            if(int_block){
+                x_off_p     = b_sides[0] * depth * b_size[0];
+                x_off_n     = b_sides[1] * depth * b_size[0];
+                x_off       = x_off_p + x_off_n;
+            
+                y_off_p     = b_sides[2] * depth * b_size[1];
+                y_off_n     = b_sides[3] * depth * b_size[1];
+                y_off       = y_off_p + y_off_n;
+            
+                z_off_p     = b_sides[4] * depth * b_size[2];
+                z_off_n     = b_sides[5] * depth * b_size[2];
+                z_off       = z_off_p + z_off_n;
+           
+                dims_z      = height - z_off;
+                dims        = [b_size[0] - x_off, b_size[1] - y_off, dims_z];
+                mv          = [x_off_n, y_off_n, z_off_n];
+            
+                translate(mv)
+                cube(dims);
+            }
         }
     }
 }
@@ -141,18 +146,18 @@ module _ppb_test_build_pillar(){
     translate([0, 4, 0])
     union(){
     
-        build_pillar(v_off = 1, v_gap = 1, seed = 456031, b_sides = [1, 0, 0, 1, 1, 1])
+        build_pillar(v_off = 1, v_gap = 1, seed = 456031, b_sides = [1, 0, 0, 1, 1, 1], int_block = false)
         brick_inter(max_a = 4);
  
-        build_pillar(b_size = [1, 1, 1], v_off = 0, v_gap = 1, seed = 554354, b_sides = [1, 0, 0, 1, 1, 1])
+        build_pillar(b_size = [1, 1, 1], v_off = 0, v_gap = 1, seed = 554354, b_sides = [1, 0, 0, 1, 1, 1], int_block = false)
         brick_inter(max_a = 4);
 
         translate([0, 1, 0])
-        build_pillar(v_off = 0, v_gap = 1, seed = 45603, b_sides = [1, 0, 1, 0, 1, 1])
+        build_pillar(v_off = 0, v_gap = 1, seed = 45603, b_sides = [1, 0, 1, 0, 1, 1], int_block = false)
         brick_inter(max_a = 4);
         
         translate([0, 2, 0])
-        build_pillar(b_size = [1, 1, 1], v_off = 1, v_gap = 1, seed = 554354, b_sides = [1, 0, 0, 1, 1, 1])
+        build_pillar(b_size = [1, 1, 1], v_off = 1, v_gap = 1, seed = 554354, b_sides = [1, 0, 0, 1, 1, 1], int_block = false)
         brick_inter(max_a = 4);
 
     }
