@@ -199,6 +199,16 @@ module _ppb_test_build_pillar(){
         brick_inter(max_a = 2);
 
     }
+
+    // Rotated bricks 
+    translate([0, 18, 0])
+    union(){
+    
+        build_pillar(height = 12, b_size = [2, 2, 2], v_off = 0.5, v_gap = 0, b_sides = [1, 0, 0, 1, 0, 0])
+        rotate([-5, 5, 0])
+        brick_inter(max_a = 2);
+
+    }
     
     // v_off test
     color("salmon")

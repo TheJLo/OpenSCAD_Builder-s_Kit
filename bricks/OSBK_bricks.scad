@@ -9,3 +9,7 @@
 include <brick_generic.scad>
 include <brick_intersect.scad>
 include <brick_set.scad>
+include <brick_round.scad>
+
+include <brick_mod_r_rot.scad>
+include <brick_mod_r_scl.scad>

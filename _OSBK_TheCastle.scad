@@ -18,24 +18,31 @@ $d = false;
 // Values
 b_size_pillar   = [1/5 * inch, 1/5 * inch, 1/5 * inch];
 b_size_wall     = [1/10 * inch, 1/5 * inch, 1/10 * inch];
+wall_gap        = 0.05;
 
 // Component Modules
 // Brick Types
 module pillar_brick(){
 
-    brick_inter(max_a = 2, n = 6);
+    brick_mod_r_rot(r_max = [1, 1, 1], trim=false)
+    brick_mod_r_scale()
+    brick_generic(rand = false);
 
 }
 
 module castle_brick(){
 
-    brick_inter(max_a = 4, n = 3);    
+    brick_mod_r_rot(r_max = [2, 2, 2], trim=false)
+    brick_mod_r_scale(s_max = [1.1, 1.1, 1.1])
+    brick_generic(rand = false);
 
 }
 
 module walk_brick(){
 
-    brick_inter(max_a = 1, n = 3);
+    brick_mod_r_rot(r_max = [1, 1, 1], trim=false)
+    brick_mod_r_scale(s_max = [1.0, 1.0, 1.05])
+    brick_generic(rand = false);
 
 }
 
@@ -48,7 +55,7 @@ module front_pillars(seed = 1234){
             height  = 1 * inch,
             b_size  = b_size_pillar,
             b_sides = [1, 1, 1, 1, 1, 0],
-            v_gap   = 0,
+            v_gap   = 0.0,
             v_off   = 0,
             seed    = seed
         )    
@@ -80,9 +87,9 @@ module front_wall(seed = 15846){
         b_size      = b_size_wall, 
         b_sides     = [1, 0, 0, 0, 0, 0],
         depth       = 0.15,
-        v_gap       = 0,
+        v_gap       = wall_gap,
         v_off       = 0.5,
-        h_gap       = 0,
+        h_gap       = wall_gap,
         h_off       = 0,
         off_n       = 2,
         seed        = seed + 0
@@ -97,9 +104,9 @@ module front_wall(seed = 15846){
         b_size      = b_size_wall, 
         b_sides     = [1, 0, 0, 0, 0, 0],
         depth       = 0.15,
-        v_gap       = 0,
+        v_gap       = wall_gap,
         v_off       = 0.5,
-        h_gap       = 0,
+        h_gap       = wall_gap,
         h_off       = 0,
         off_n       = 2,
         seed        = seed + 1
@@ -114,9 +121,9 @@ module front_wall(seed = 15846){
             b_size      = b_size_wall, 
             b_sides     = [1, 0, 0, 0, 1, 1],
             depth       = 0.15,
-            v_gap       = 0,
-            v_off       = 0,
-            h_gap       = 0,
+            v_gap       = wall_gap,
+            v_off       = 1.5,
+            h_gap       = wall_gap,
             h_off       = 0.5,
             off_n       = 2,
             seed        = seed + 2
@@ -155,7 +162,7 @@ module front_wall(seed = 15846){
             b_size      = b_size_pillar, 
             b_sides     = [0, 0, 0, 0, 0, 1],
             depth       = 0.15,
-            v_gap       = 0,
+            v_gap       = 0.0,
             v_off       = 0,
             h_gap       = 0,
             h_off       = 0,
@@ -200,9 +207,9 @@ module front_wall(seed = 15846){
         b_size      = b_size_wall, 
         b_sides     = [0, 1, 0, 0, 0, 0],
         depth       = 0.15,
-        v_gap       = 0,
+        v_gap       = wall_gap,
         v_off       = 0.5,
-        h_gap       = 0,
+        h_gap       = wall_gap,
         h_off       = 0,
         off_n       = 2,
         seed        = seed + 7
@@ -217,9 +224,9 @@ module front_wall(seed = 15846){
         b_size      = b_size_wall, 
         b_sides     = [0, 1, 0, 0, 0, 0],
         depth       = 0.15,
-        v_gap       = 0,
+        v_gap       = wall_gap,
         v_off       = 0.5,
-        h_gap       = 0,
+        h_gap       = wall_gap,
         h_off       = 0,
         off_n       = 2,
         seed        = seed + 8
@@ -234,9 +241,9 @@ module front_wall(seed = 15846){
             b_size      = b_size_wall, 
             b_sides     = [0, 1, 0, 0, 1, 1],
             depth       = 0.15,
-            v_gap       = 0,
-            v_off       = 0,
-            h_gap       = 0,
+            v_gap       = wall_gap,
+            v_off       = 1.5,
+            h_gap       = wall_gap,
             h_off       = 0.5,
             off_n       = 2,
             seed        = seed + 9
@@ -256,9 +263,9 @@ module tower(seed = 149787){
                 b_size      = b_size_wall, 
                 b_sides     = [1, 0, 0, 0, 1, 0],
                 depth       = 0.15,
-                v_gap       = 0,
+                v_gap       = wall_gap,
                 v_off       = 0,
-                h_gap       = 0,
+                h_gap       = wall_gap,
                 h_off       = 0.5,
                 off_n       = 2,
                 seed        = seed + 0
@@ -273,9 +280,9 @@ module tower(seed = 149787){
                 b_size      = b_size_wall, 
                 b_sides     = [1, 0, 0, 0, 1, 0],
                 depth       = 0.15,
-                v_gap       = 0,
+                v_gap       = wall_gap,
                 v_off       = 0,
-                h_gap       = 0,
+                h_gap       = wall_gap,
                 h_off       = 0.5,
                 off_n       = 2,
                 seed        = seed + 1
@@ -290,9 +297,9 @@ module tower(seed = 149787){
                 b_size      = b_size_wall, 
                 b_sides     = [1, 0, 0, 0, 1, 0],
                 depth       = 0.15,
-                v_gap       = 0,
+                v_gap       = wall_gap,
                 v_off       = 0,
-                h_gap       = 0,
+                h_gap       = wall_gap,
                 h_off       = 0.5,
                 off_n       = 2,
                 seed        = seed + 2
@@ -307,9 +314,9 @@ module tower(seed = 149787){
                 b_size      = b_size_wall, 
                 b_sides     = [1, 0, 0, 0, 1, 0],
                 depth       = 0.15,
-                v_gap       = 0,
+                v_gap       = wall_gap,
                 v_off       = 0,
-                h_gap       = 0,
+                h_gap       = wall_gap,
                 h_off       = 0.5,
                 off_n       = 2,
                 seed        = seed + 3
@@ -319,11 +326,11 @@ module tower(seed = 149787){
             rotate([0, 0, 270])
             build_pillar(
                 height      = 2 * inch,
-                b_size      = [b_size_wall[0] * 1.05, b_size_wall[1] * 0.55, b_size_wall[2]],
+                b_size      = [b_size_wall[0] * 1.075, b_size_wall[1] * 0.575, b_size_wall[2]],
                 b_sides     = [1, 0, 1, 0, 1, 0],
                 depth       = 0.15,
                 v_off       = 0,
-                v_gap       = 0,
+                v_gap       = wall_gap,
                 seed        = seed + 4
             )
         
@@ -332,11 +339,11 @@ module tower(seed = 149787){
             translate([0, 3/4 * inch, 0])
             build_pillar(
                 height      = 2 * inch,
-                b_size      = [b_size_wall[0] * 1.05, b_size_wall[1] * 0.55, b_size_wall[2]],
+                b_size      = [b_size_wall[0] * 1.075, b_size_wall[1] * 0.575, b_size_wall[2]],
                 b_sides     = [1, 0, 1, 0, 1, 0],
                 depth       = 0.15,
                 v_off       = 0,
-                v_gap       = 0,
+                v_gap       = wall_gap,
                 seed        = seed + 5
             )
             walk_brick();
@@ -344,11 +351,11 @@ module tower(seed = 149787){
             translate([-3/4 * inch - b_size_wall[0] * 1.05, 3/4 * inch, 0])
             build_pillar(
                 height      = 2 * inch,
-                b_size      = [b_size_wall[0] * 1.05, b_size_wall[1] * 0.55, b_size_wall[2]],
+                b_size      = [b_size_wall[0] * 1.075, b_size_wall[1] * 0.575, b_size_wall[2]],
                 b_sides     = [0, 1, 1, 0, 1, 0],
                 depth       = 0.15,
                 v_off       = 0,
-                v_gap       = 0,
+                v_gap       = wall_gap,
                 seed        = seed + 6
             )
             walk_brick();
@@ -357,11 +364,11 @@ module tower(seed = 149787){
             rotate([0, 0, 270])
             build_pillar(
                 height      = 2 * inch,
-                b_size      = [b_size_wall[0] * 1.05, b_size_wall[1] * 0.55, b_size_wall[2]],
+                b_size      = [b_size_wall[0] * 1.075, b_size_wall[1] * 0.575, b_size_wall[2]],
                 b_sides     = [1, 0, 0, 1, 1, 0],
                 depth       = 0.15,
                 v_off       = 0,
-                v_gap       = 0,
+                v_gap       = wall_gap,
                 seed        = seed + 7
             )
             walk_brick();
@@ -400,9 +407,9 @@ module wall(seed = 77991252984){
         b_size      = b_size_wall, 
         b_sides     = [1, 0, 0, 0, 0, 0],
         depth       = 0.15,
-        v_gap       = 0,
+        v_gap       = wall_gap,
         v_off       = 0.5,
-        h_gap       = 0,
+        h_gap       = wall_gap,
         h_off       = 0,
         off_n       = 2,
         seed        = seed + 0
@@ -418,9 +425,9 @@ module wall(seed = 77991252984){
         b_size      = b_size_wall, 
         b_sides     = [1, 0, 0, 0, 0, 0],
         depth       = 0.15,
-        v_gap       = 0,
+        v_gap       = wall_gap,
         v_off       = 0.5,
-        h_gap       = 0,
+        h_gap       = wall_gap,
         h_off       = 0,
         off_n       = 2,
         seed        = seed + 1

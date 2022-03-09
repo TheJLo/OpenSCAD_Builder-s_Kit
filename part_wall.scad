@@ -240,6 +240,24 @@ module _pwb_test_build_wall(){
         brick_inter(max_a = 10, n = 3);
     
     }
+    
+    // Custom Wall, rotated brick
+    translate([0, 36, 0])
+    build_wall(
+        length      = 10,        
+        height      = 5,         
+        b_size      = [1, 2, 2],          
+        b_sides     = [1, 1, 1, 1, 1, 0], 
+        depth       = 0.25,               
+        v_gap       = 0.1,           
+        v_off       = 0.75,           
+        h_gap       = 0.1,           
+        h_off       = 0.5,
+        int_block   = true,
+        seed        = 125468
+    )
+    rotate([-5, 0, 0])
+    brick_inter(max_a = 2, n = 6);
 
     // Box
     translate([-10, 0, 0])
