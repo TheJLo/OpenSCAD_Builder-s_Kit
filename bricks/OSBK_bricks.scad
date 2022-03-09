@@ -13,3 +13,6 @@ include <brick_round.scad>
 
 include <brick_mod_r_rot.scad>
 include <brick_mod_r_scl.scad>
+include <brick_mod_r_tra.scad>
+
+include <brick_mod_cracked.scad>

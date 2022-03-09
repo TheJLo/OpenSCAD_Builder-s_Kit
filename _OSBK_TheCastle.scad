@@ -24,8 +24,10 @@ wall_gap        = 0.05;
 // Brick Types
 module pillar_brick(){
 
-    brick_mod_r_rot(r_max = [1, 1, 1], trim=false)
-    brick_mod_r_scale()
+    brick_mod_r_rot(r_max = [0.5, 0.5, 0.5], trim=false)
+    brick_mod_r_translate(t_min = [-0.01, -0.01, -0.01], t_max = [0.01, 0.01, 0.01])
+    brick_mod_r_scale(s_min = [0.99, 0.99, 0.99], s_max = [1.01, 1.01, 1.01])
+    brick_mod_cracked(chance = 0.15)
     brick_generic(rand = false);
 
 }
@@ -33,7 +35,9 @@ module pillar_brick(){
 module castle_brick(){
 
     brick_mod_r_rot(r_max = [2, 2, 2], trim=false)
+    brick_mod_r_translate(t_min = [-0.02, -0.02, -0.02], t_max = [0.02, 0.02, 0.02])
     brick_mod_r_scale(s_max = [1.1, 1.1, 1.1])
+    brick_mod_cracked(chance = 0.25)
     brick_generic(rand = false);
 
 }
@@ -41,7 +45,9 @@ module castle_brick(){
 module walk_brick(){
 
     brick_mod_r_rot(r_max = [1, 1, 1], trim=false)
+    brick_mod_r_translate(t_min = [-0.02, -0.02, -0.02], t_max = [0.02, 0.02, 0.02])
     brick_mod_r_scale(s_max = [1.0, 1.0, 1.05])
+    brick_mod_cracked(chance = 0.25)
     brick_generic(rand = false);
 
 }

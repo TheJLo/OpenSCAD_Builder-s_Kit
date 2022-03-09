@@ -19,8 +19,10 @@ $fn = 25;
 module brick_mod1(){
 
     
-    brick_mod_r_rot(r_max = [2, 2, 2], trim=false)
+    brick_mod_r_rot(r_max = [2, 2, 2], trim = false)
+    brick_mod_r_translate(t_min = [-0.05, -0.05, -0.05], t_max = [0.05, 0.05, 0.05])
     brick_mod_r_scale(s_min = [0.9, 0.9, 0.9], s_max = [1.025, 1.025, 1.025])
+    brick_mod_cracked(chance = 0.25)
     brick_generic(rand = false);
 
 }
